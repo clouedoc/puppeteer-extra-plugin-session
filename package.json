@@ -1,6 +1,6 @@
 {
   "name": "puppeteer-extra-plugin-session",
-  "version": "1.0.4",
+  "version": "0.0.1",
   "description": "A puppeteer plugin to dump and inject session data.",
   "repository": "https://github.com/clouedoc/puppeteer-extra-plugin-session",
   "license": "MIT",
@@ -8,9 +8,7 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "files": [
-    "lib",
-    "lib/index.js",
-    "lib/index.d.ts"
+    "lib"
   ],
   "scripts": {
     "test": "yarn jest --watchAll",
@@ -52,6 +50,10 @@
     "puppeteer-extra-plugin",
     "session",
     "puppeteer-extra-plugin-stealth",
-    "cookies"
+    "cookies",
+    "indexeddb",
+    "profile",
+    "sessionStorage",
+    "localStorage"
   ]
 }
