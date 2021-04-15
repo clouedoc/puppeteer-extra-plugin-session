@@ -1,24 +1,12 @@
 import { Page } from "puppeteer";
-import * as z from "zod";
 import { getCookies, setCookies } from "./providers/cookies";
-import {
-  ExportedIndexedDBDatabase,
-  getAllIndexedDB,
-  setAllIndexedDB,
-} from "./providers/IndexedDB";
+import { getAllIndexedDB, setAllIndexedDB } from "./providers/IndexedDB";
 import { getLocalStorage, setLocalStorage } from "./providers/localStorage";
 import {
   getSessionStorage,
   setSessionStorage,
 } from "./providers/sessionStorage";
-
-export const SessionData = z.object({
-  localStorage: z.string(),
-  sessionStorage: z.string(),
-  indexedDBDatabases: z.array(ExportedIndexedDBDatabase),
-  cookies: z.string(),
-});
-export type SessionData = z.infer<typeof SessionData>;
+import { SessionData } from "./types";
 
 /**
  * @param securityOrigin to get this: Dev Tools > Application > IndexedDB > properties of a database > security origin

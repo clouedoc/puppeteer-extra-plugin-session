@@ -1,5 +1,7 @@
+import { Page } from "puppeteer";
 import { PuppeteerExtraPlugin } from "puppeteer-extra-plugin";
 import { PLUGIN_NAME } from "./constants";
+import { inject } from "./injector";
 import { SessionPluginOptions } from "./types";
 
 // TODO: use documentation.js to generate documentation in README.md
@@ -8,13 +10,6 @@ import { SessionPluginOptions } from "./types";
  * Puppeteer Extra Session Plugin
  */
 export class SessionPlugin extends PuppeteerExtraPlugin {
-  /**
-   * Provide fallbacks if resolution fails.
-   * @type {string}
-   * @protected
-   */
-  protected _fallbackTz: string | undefined;
-
   /**
    * Constructor
    * Receives standard puppeteer-extra plugin config options.
@@ -29,10 +24,13 @@ export class SessionPlugin extends PuppeteerExtraPlugin {
   public get name() {
     return PLUGIN_NAME;
   }
+
+  public async onPageCreated(page: Page) {
+    inject(page);
+  }
 }
 
 /**
  * Export plugin factory as default export.
- * @return {SessionPlugin}
  */
 export default () => new SessionPlugin();
