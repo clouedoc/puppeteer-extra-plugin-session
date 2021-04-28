@@ -1,8 +1,12 @@
-import { Page } from "puppeteer";
+import { Cookie, Page } from "puppeteer";
 
-// TODO: use CDP all cookies method
 export async function getCookies(page: Page) {
-  return JSON.stringify(await page.cookies());
+  const client = await page.target().createCDPSession();
+  const { cookies } = await client.send(
+    'Network.getAllCookies'
+  ) as { cookies: Cookie[] }
+
+  return JSON.stringify(cookies);
 }
 
 export async function setCookies(page: Page, cookies: string) {
