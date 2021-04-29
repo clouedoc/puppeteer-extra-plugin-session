@@ -69,28 +69,28 @@ it("can edit and overwrite cookies", async () => {
     setCookie("foo", "bar");
   });
 
-  const session = await page.session.dump("_");
+  const initialSession = await page.session.dump("_");
 
   // edit cookies
-  session.cookies = session.cookies.map((cookie) => {
+  initialSession.cookies = initialSession.cookies.map((cookie) => {
     // note: beware, here, it's baz, while before, it was ba*r*.
     cookie.value = "baz";
     return cookie;
   });
 
-  await page.session.restore(session);
+  await page.session.restore(initialSession);
 
-  {
-    const session = await page.session.dump("_");
+  const restoredSession = await page.session.dump("_");
 
-    // the cookie exists again
-    expect(session.cookies.some((cookie) => cookie.name === "foo")).toBe(true);
+  // the cookie exists again
+  expect(restoredSession.cookies.some(
+    (cookie) => cookie.name === "foo")
+  ).toBe(true);
 
-    // the cookie contains the right value
-    expect(session.cookies.find((cookie) => cookie.name === "foo")?.value).toBe(
-      "baz"
-    );
-  }
+  // the cookie contains the right value
+  expect(restoredSession.cookies.find(
+    (cookie) => cookie.name === "foo"
+  )?.value).toBe("baz");
 });
 
 it.todo("can add a cookie");
