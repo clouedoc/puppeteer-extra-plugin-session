@@ -1,32 +1,35 @@
 import { Page } from "puppeteer";
+import { IndexedDBRecord } from "../../schemas";
 
 // STEALTH: isolated worlds
-// FIXME: make this TypeScript-compliant
 // TODO: investigate database versions
-export async function setIndexedDB(page: Page, data: object, dbName: string) {
+export async function setIndexedDB(page: Page, data: IndexedDBRecord, dbName: string) {
   await page.evaluate(
-    (data: any, dbName: string) => {
+    (data: IndexedDBRecord, dbName: string) => {
       return new Promise<void>((resolve, reject) => {
+        // TODO should this be a function?
         function initDB() {
-          var request = window.indexedDB.open(dbName, 1);
+          const request = window.indexedDB.open(dbName, 1);
           request.onsuccess = function () {};
           request.onupgradeneeded = function () {};
-          request.onerror = function (event: any) {
-            throw new Error(event.target.errorCode);
+          request.onerror = function (event) {
+            reject(event);
           };
         }
 
-        initDB(); // opens the DB at version 1, to allow us trigerring a version change
+        // opens the DB at version 1, to allow us triggering a version change
         // to inject our scraped database
+        initDB();
 
         // the list of required stores, that we must create or which must exist
         const requiredStoreNames = Object.keys(data);
 
-        const request = window.indexedDB.open(dbName, 2); // note: open with version 2 for some reason
+        // note: open with version 2 for some reason
+        const request = window.indexedDB.open(dbName, 2);
 
         // create the object stores
-        request.onupgradeneeded = (e: any) => {
-          const db: IDBDatabase = e.target.result;
+        request.onupgradeneeded = () => {
+          const db = request.result;
 
           for (const storeName of requiredStoreNames) {
             try {
@@ -41,33 +44,28 @@ export async function setIndexedDB(page: Page, data: object, dbName: string) {
           }
         };
 
-        request.onsuccess = (e: any) => {
-          const idbDatabase: IDBDatabase = e.target.result;
+        request.onerror = (err) => reject(err.toString());
+        request.onsuccess = () => {
+          const idbDatabase = request.result;
 
           // open a transaction with all our created stores
           const transaction = idbDatabase.transaction(
             requiredStoreNames,
             "readwrite"
           );
+          transaction.onerror = reject;
 
-          transaction.addEventListener("error", reject);
+          // This should not trigger until all the objects are stored
+          transaction.oncomplete = () => resolve();
 
           for (const storeName of requiredStoreNames) {
             for (const [key, value] of Object.entries(data[storeName])) {
               transaction.objectStore(storeName).put(value, key);
             }
-            // @ts-expect-error
-            request.oncomplete = resolve();
           }
-          resolve();
-        };
-
-        request.onerror = (err) => {
-          throw new Error(err.toString());
         };
       });
     },
-    // @ts-expect-error
     data,
     dbName
   );
