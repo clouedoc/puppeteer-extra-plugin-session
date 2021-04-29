@@ -1,10 +1,5 @@
 import { Page } from "puppeteer";
-import { z } from "zod";
-
-const cursorRecord = z.record(z.any())
-type CursorRecord = z.infer<typeof cursorRecord>
-export const indexedDBRecord = z.record(cursorRecord);
-export type IndexedDBRecord = z.infer<typeof indexedDBRecord>;
+import { CursorRecord, IndexedDBRecord } from "../../schemas";
 
 // STEALTH: isolated worlds
 export async function getIndexedDB(

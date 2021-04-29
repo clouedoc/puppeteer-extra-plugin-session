@@ -1,24 +1,14 @@
 import { Page } from "puppeteer";
-import { z } from "zod";
+import { IndexedDBDatabase } from "../../schemas";
 import { getDatabaseNames } from "./database-names";
-import { getIndexedDB, indexedDBRecord } from "./get";
+import { getIndexedDB } from "./get";
 import { setIndexedDB } from "./set";
-
-export const exportedIndexedDBDatabase = z.object({
-  name: z.string(),
-  data: indexedDBRecord,
-  securityOrigin: z.string(),
-});
-
-export type ExportedIndexedDBDatabase = z.infer<
-  typeof exportedIndexedDBDatabase
->;
 
 /**
  * @param securityOrigin get this from the "application > IndexedDB" developper panel
  * @returns databases
  */
-export async function getAllIndexedDB(page: Page, securityOrigin: string): Promise<ExportedIndexedDBDatabase[]> {
+export async function getAllIndexedDB(page: Page, securityOrigin: string): Promise<IndexedDBDatabase[]> {
   const dbNames = await getDatabaseNames(page, securityOrigin);
 
   const indexedDBs = await Promise.all(
@@ -36,7 +26,7 @@ export async function getAllIndexedDB(page: Page, securityOrigin: string): Promi
 
 export async function setAllIndexedDB(
   page: Page,
-  databases: ExportedIndexedDBDatabase[]
+  databases: IndexedDBDatabase[]
 ) {
   for (const db of databases) {
     if (!page.url().includes(db.securityOrigin)) {

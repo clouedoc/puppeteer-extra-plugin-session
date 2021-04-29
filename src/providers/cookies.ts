@@ -1,14 +1,31 @@
-import { Cookie, Page } from "puppeteer";
+import { Page } from "puppeteer";
+import { z } from "zod";
+import { CDPCookie, CDPCookieParam, CDPCookieSchema } from "../schemas";
 
-export async function getCookies(page: Page) {
-  const client = await page.target().createCDPSession();
-  const { cookies } = await client.send(
-    'Network.getAllCookies'
-  ) as { cookies: Cookie[] }
+export async function getCookies(page: Page): Promise<CDPCookie[]> {
+  const session = await page.target().createCDPSession();
+  const resp = await session.send("Network.getAllCookies");
+  await session.detach();
 
-  return JSON.stringify(cookies);
+  /**
+   * @see https://chromedevtools.github.io/devtools-protocol/tot/Network/#method-getAllCookies
+   */
+  const parsed = z.object({ cookies: z.array(CDPCookieSchema) }).parse(resp);
+
+  return parsed.cookies;
 }
 
-export async function setCookies(page: Page, cookies: string) {
-  await page.setCookie(...JSON.parse(cookies));
+export async function setCookies(page: Page, cookies: CDPCookie[]) {
+  const session = await page.target().createCDPSession();
+
+  const parsed = z.array(CDPCookieParam).parse(cookies);
+
+  /**
+   * @see https://chromedevtools.github.io/devtools-protocol/tot/Network/#method-setCookies
+   */
+  await session.send("Network.setCookies", {
+    cookies: parsed,
+  });
+
+  await session.detach();
 }

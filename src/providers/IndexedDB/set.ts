@@ -1,5 +1,5 @@
 import { Page } from "puppeteer";
-import { IndexedDBRecord } from "./get";
+import { IndexedDBRecord } from "../../schemas";
 
 // STEALTH: isolated worlds
 // TODO: investigate database versions

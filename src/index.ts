@@ -3,8 +3,12 @@
  * TODO: make sure that everything is exported
  */
 export * from "./constants";
+export * from "./exceptions";
+export * from "./injector";
+export * from "./manager";
 export * from "./plugin";
-export * from "./types";
+export * from "./schemas";
+export * from "./session";
 
 /**
  * Export plugin factory as default export.
