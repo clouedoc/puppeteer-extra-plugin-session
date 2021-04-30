@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { ExportedIndexedDBDatabase } from "./providers/IndexedDB";
 
 /**
  * @see https://chromedevtools.github.io/devtools-protocol/tot/IndexedDB/#method-requestDatabaseNames
@@ -7,6 +6,17 @@ import { ExportedIndexedDBDatabase } from "./providers/IndexedDB";
 export const CDPIndexedDBDatabaseNames = z.object({
   databaseNames: z.array(z.string()),
 });
+
+/**
+ * IndexedDB schemas
+ */
+export const IndexedDBSchema = z.string();
+export const IndexedDBDatabaseSchema = z.object({
+  name: z.string(),
+  data: IndexedDBSchema,
+  securityOrigin: z.string(),
+});
+export type IndexedDBDatabase = z.infer<typeof IndexedDBDatabaseSchema>;
 
 const CDPSameSite = z.enum(["Strict", "Lax", "None"]);
 const CDPCookiePriority = z.enum(["Low", "Medium", "High"]);
@@ -60,6 +70,6 @@ export const CDPCookieParam = z.object({
 export const SessionDataSchema = z.object({
   localStorage: z.string(),
   sessionStorage: z.string(),
-  indexedDBDatabases: z.array(ExportedIndexedDBDatabase),
+  indexedDBDatabases: z.array(IndexedDBDatabaseSchema),
   cookies: z.array(CDPCookieSchema),
 });
