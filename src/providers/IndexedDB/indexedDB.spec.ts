@@ -1,8 +1,10 @@
 import { Browser, Page } from "puppeteer";
 import puppeteer from "puppeteer-extra";
+import StealthPlugin from "puppeteer-extra-plugin-stealth";
 import { TestBrowserExecutablePath } from "../../constants";
 import { SessionPlugin } from "../../plugin";
-import StealthPlugin from 'puppeteer-extra-plugin-stealth'
+
+jest.setTimeout(15000);
 
 let browser: Browser;
 let page: Page;
@@ -16,7 +18,7 @@ beforeAll(async () => {
 
 beforeEach(async () => {
   page = await browser.newPage();
-  await page.goto("https://twitter.com/", { waitUntil: 'networkidle2'});
+  await page.goto("https://twitter.com/", { waitUntil: "networkidle2" });
 });
 
 afterAll(async () => {
@@ -27,13 +29,17 @@ it("can get localdb", async () => {
   const session = await page.session.dump("https://twitter.com");
 
   // the db exist and was obtained
-  expect(session.indexedDBDatabases).toHaveLength(1)
-  expect(session.indexedDBDatabases.some((db) => db.name === "localforage")).toBe(true);
+  expect(session.indexedDBDatabases).toHaveLength(1);
+  expect(
+    session.indexedDBDatabases.some((db) => db.name === "localforage")
+  ).toBe(true);
 });
 
 it("can set indexDB", async () => {
   const session = await page.session.dump("https://twitter.com");
-  expect(session.indexedDBDatabases.some((db) => db.name === "localforage")).toBe(true);
+  expect(
+    session.indexedDBDatabases.some((db) => db.name === "localforage")
+  ).toBe(true);
 
   // Delete the database using CDP
   const client = await page.target().createCDPSession();
@@ -45,13 +51,16 @@ it("can set indexDB", async () => {
 
   // Dump the session again to make sure there is no localforage
   const emptySession = await page.session.dump("https://twitter.com");
-  expect(emptySession.indexedDBDatabases.some((db) => db.name === "localforage")).toBe(false);
+  expect(
+    emptySession.indexedDBDatabases.some((db) => db.name === "localforage")
+  ).toBe(false);
 
   // Restore the indexedDB
-  await page.session.restore(session)
+  await page.session.restore(session);
 
   // Check to make sure the db was restored
   const finalSession = await page.session.dump("https://twitter.com");
-  expect(finalSession.indexedDBDatabases.some((db) => db.name === "localforage")).toBe(true);
+  expect(
+    finalSession.indexedDBDatabases.some((db) => db.name === "localforage")
+  ).toBe(true);
 });
-
