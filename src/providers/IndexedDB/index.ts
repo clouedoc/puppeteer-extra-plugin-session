@@ -33,6 +33,6 @@ export async function setAllIndexedDB(
       await page.goto(db.securityOrigin);
     }
 
-    await setIndexedDB(page, db.data, db.name);
+    await setIndexedDB(page, db.data);
   }
 }

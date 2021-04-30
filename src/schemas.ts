@@ -10,13 +10,10 @@ export const CDPIndexedDBDatabaseNames = z.object({
 /**
  * IndexedDB schemas
  */
-export const CursorRecordSchema = z.record(z.any())
-export type CursorRecord = z.infer<typeof CursorRecordSchema>
-export const IndexedDBRecordSchema = z.record(CursorRecordSchema);
-export type IndexedDBRecord = z.infer<typeof IndexedDBRecordSchema>;
+export const IndexedDBSchema = z.string();
 export const IndexedDBDatabaseSchema = z.object({
   name: z.string(),
-  data: IndexedDBRecordSchema,
+  data: IndexedDBSchema,
   securityOrigin: z.string(),
 });
 export type IndexedDBDatabase = z.infer<typeof IndexedDBDatabaseSchema>;

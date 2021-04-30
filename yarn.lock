@@ -632,7 +632,7 @@
   "resolved" "https://registry.npmjs.org/@types/prettier/-/prettier-2.2.3.tgz"
   "version" "2.2.3"
 
-"@types/puppeteer@^5", "@types/puppeteer@5.4.3":
+"@types/puppeteer@5.4.3":
   "integrity" "sha512-3nE8YgR9DIsgttLW+eJf6mnXxq8Ge+27m5SU3knWmrlfl6+KOG0Bf9f7Ua7K+C4BnaTMAh3/UpySqdAYvrsvjg=="
   "resolved" "https://registry.npmjs.org/@types/puppeteer/-/puppeteer-5.4.3.tgz"
   "version" "5.4.3"
@@ -858,6 +858,11 @@
   "integrity" "sha1-x57Zf380y48robyXkLzDZkdLS3k="
   "resolved" "https://registry.npmjs.org/asynckit/-/asynckit-0.4.0.tgz"
   "version" "0.4.0"
+
+"at-least-node@^1.0.0":
+  "integrity" "sha512-+q/t7Ekv1EDY2l6Gda6LLiX14rU9TV20Wa3ofeQmwPFZbOMo9DXrLbOjFaaclkXKWidIaopwAObQDqwWtGUjqg=="
+  "resolved" "https://registry.npmjs.org/at-least-node/-/at-least-node-1.0.0.tgz"
+  "version" "1.0.0"
 
 "atob@^2.1.2":
   "integrity" "sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg=="
@@ -2038,6 +2043,16 @@
   "resolved" "https://registry.npmjs.org/fs-constants/-/fs-constants-1.0.0.tgz"
   "version" "1.0.0"
 
+"fs-extra@^9.1.0":
+  "integrity" "sha512-hcg3ZmepS30/7BSFqRvoo3DOMQu7IjqxO5nCDt+zM9XWjb33Wg7ziNT+Qvqbuc3+gWpzO02JubVyk2G4Zvo1OQ=="
+  "resolved" "https://registry.npmjs.org/fs-extra/-/fs-extra-9.1.0.tgz"
+  "version" "9.1.0"
+  dependencies:
+    "at-least-node" "^1.0.0"
+    "graceful-fs" "^4.2.0"
+    "jsonfile" "^6.0.1"
+    "universalify" "^2.0.0"
+
 "fs.realpath@^1.0.0":
   "integrity" "sha1-FQStJSMVjKpA20onh8sBQRmU6k8="
   "resolved" "https://registry.npmjs.org/fs.realpath/-/fs.realpath-1.0.0.tgz"
@@ -2163,7 +2178,7 @@
     "merge2" "^1.3.0"
     "slash" "^3.0.0"
 
-"graceful-fs@^4.1.2", "graceful-fs@^4.2.4":
+"graceful-fs@^4.1.2", "graceful-fs@^4.1.6", "graceful-fs@^4.2.0", "graceful-fs@^4.2.4":
   "integrity" "sha512-nTnJ528pbqxYanhpDYsi4Rd8MAeaBA67+RZ10CM1m3bTAVFEDcd5AuA4a6W5YkGZ1iNXHzZz8T6TBKLeBuNriQ=="
   "resolved" "https://registry.npmjs.org/graceful-fs/-/graceful-fs-4.2.6.tgz"
   "version" "4.2.6"
@@ -3114,6 +3129,15 @@
   dependencies:
     "minimist" "^1.2.5"
 
+"jsonfile@^6.0.1":
+  "integrity" "sha512-5dgndWOriYSm5cnYaJNhalLNDKOqFwyDB/rr1E9ZsGciGvKPs8R2xYGCacuf3z6K1YKDz182fd+fY3cn3pMqXQ=="
+  "resolved" "https://registry.npmjs.org/jsonfile/-/jsonfile-6.1.0.tgz"
+  "version" "6.1.0"
+  dependencies:
+    "universalify" "^2.0.0"
+  optionalDependencies:
+    "graceful-fs" "^4.1.6"
+
 "jsprim@^1.2.2":
   "integrity" "sha1-MT5mvB5cwG5Di8G3SZwuXFastqI="
   "resolved" "https://registry.npmjs.org/jsprim/-/jsprim-1.4.1.tgz"
@@ -3876,6 +3900,34 @@
     "tar-fs" "^2.0.0"
     "unbzip2-stream" "^1.3.3"
     "ws" "^7.2.3"
+
+"puppeteer-extra-plugin-stealth@^2.7.8":
+  "integrity" "sha512-Zhm/WY/BAk9VGdZR5OVpiwfGn2NoAzEb0hdu3/PGRryfenn8Dtoai8aUa8GzFPExWL+yGPsztswupH+3TV3M2A=="
+  "resolved" "https://registry.npmjs.org/puppeteer-extra-plugin-stealth/-/puppeteer-extra-plugin-stealth-2.7.8.tgz"
+  "version" "2.7.8"
+  dependencies:
+    "debug" "^4.1.1"
+    "puppeteer-extra-plugin" "^3.1.9"
+    "puppeteer-extra-plugin-user-preferences" "^2.2.12"
+
+"puppeteer-extra-plugin-user-data-dir@^2.2.12":
+  "integrity" "sha512-+RTNevJLswyh/RfQ+c46otTtE9eABKv8KkLGHcz1jpnVH/iX2wHu7VkXA5Y9pKBaLYDt83BON8wCowy5Eh/KWA=="
+  "resolved" "https://registry.npmjs.org/puppeteer-extra-plugin-user-data-dir/-/puppeteer-extra-plugin-user-data-dir-2.2.12.tgz"
+  "version" "2.2.12"
+  dependencies:
+    "debug" "^4.1.1"
+    "fs-extra" "^9.1.0"
+    "puppeteer-extra-plugin" "^3.1.9"
+
+"puppeteer-extra-plugin-user-preferences@^2.2.12":
+  "integrity" "sha512-y4YOykpYHq0t8qnRyuSL6sIDIRKgdlKkIIFdRbfZx3cg7nxeVLkHgEz3v/Ob0U/lvzlSrr4xvHhG+KcVWH7BXA=="
+  "resolved" "https://registry.npmjs.org/puppeteer-extra-plugin-user-preferences/-/puppeteer-extra-plugin-user-preferences-2.2.12.tgz"
+  "version" "2.2.12"
+  dependencies:
+    "debug" "^4.1.1"
+    "deepmerge" "^4.2.2"
+    "puppeteer-extra-plugin" "^3.1.9"
+    "puppeteer-extra-plugin-user-data-dir" "^2.2.12"
 
 "puppeteer-extra-plugin@^3.1.9":
   "integrity" "sha512-LYKj+3wGsnBzwEIpTertyOkzjcTHJn96FDSFXQ4Oo38CFFRw1qRBAJPPtAaMVjuVDqATeNd/RpP4n5jbxeX90g=="
@@ -4786,6 +4838,11 @@
   "integrity" "sha512-rBJeI5CXAlmy1pV+617WB9J63U6XcazHHF2f2dbJix4XzpUF0RS3Zbj0FGIOCAva5P/d/GBOYaACQ1w+0azUkg=="
   "resolved" "https://registry.npmjs.org/universalify/-/universalify-0.1.2.tgz"
   "version" "0.1.2"
+
+"universalify@^2.0.0":
+  "integrity" "sha512-hAZsKq7Yy11Zu1DE0OzWjw7nnLZmJZYTDZZyEFHZdUhV8FkH5MCfoU1XMaxXovpyW5nq5scPqq0ZDP9Zyl04oQ=="
+  "resolved" "https://registry.npmjs.org/universalify/-/universalify-2.0.0.tgz"
+  "version" "2.0.0"
 
 "unset-value@^1.0.0":
   "integrity" "sha1-g3aHP30jNRef+x5vw6jtDfyKtVk="
