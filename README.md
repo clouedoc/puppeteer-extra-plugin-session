@@ -1,9 +1,5 @@
 # puppeteer-extra-plugin-session
 
-<img src="https://www.vkf-renzel.com/out/pictures/generated/product/1/650_650_75/r12044336-01/general-warning-sign-10836-1.jpg" width="100" height="100" alt="warning sign"/>
-
-## ⚠️ This is a WIP: this works but you should probably not use it ⚠️
-
 ## Introduction
 
 Dump and restore session data from your puppeteer pages.
