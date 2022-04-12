@@ -26,7 +26,7 @@ First of all, you have to register the plugin with `puppeteer-extra`.
 JavaScript:
 
 ```js
-puppeteer.use(require('puppeteer-extra-plugin-session')())
+puppeteer.use(require('puppeteer-extra-plugin-session').default())
 ```
 
 TypeScript:
