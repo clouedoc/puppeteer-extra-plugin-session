@@ -1,34 +1,43 @@
-import { Page } from "puppeteer";
-import { getCookies, setCookies } from "./providers/cookies";
-import { getAllIndexedDB, setAllIndexedDB } from "./providers/IndexedDB";
-import { getLocalStorage, setLocalStorage } from "./providers/localStorage";
+import { Page } from 'puppeteer';
 import {
-  getSessionStorage,
-  setSessionStorage,
-} from "./providers/sessionStorage";
-import { SessionData } from "./types";
+  StorageProvider,
+  StorageProviderName,
+} from './classes/storage-provider';
+import { CookieStorageProvider } from './providers/cookies';
+import { IndexedDBStorageProvider } from './providers/indexedDb';
+import { LocalStorageProvider } from './providers/localStorage';
+import { SessionStorageProvider } from './providers/sessionStorage';
+import { SessionData } from './types/session-data';
 
-/**
- * @param securityOrigin to get this: Dev Tools > Application > IndexedDB > properties of a database > security origin
- * @returns
- */
-export async function getSessionData(
-  page: Page,
-  securityOrigin: string
-): Promise<SessionData> {
+export const storageProviderMap: Record<
+  StorageProviderName,
+  StorageProvider
+> = {
+  [StorageProviderName.Cookie]: new CookieStorageProvider(),
+  [StorageProviderName.LocalStorage]: new LocalStorageProvider(),
+  [StorageProviderName.SessionStorage]: new SessionStorageProvider(),
+  [StorageProviderName.IndexedDB]: new IndexedDBStorageProvider(),
+};
+
+export async function getSessionData(page: Page): Promise<SessionData> {
   return {
-    localStorage: await getLocalStorage(page),
-    cookies: await getCookies(page),
-    sessionStorage: await getSessionStorage(page),
-    indexedDBDatabases: await getAllIndexedDB(page, securityOrigin),
+    localStorage: await storageProviderMap.localStorage.get(page),
+    cookie: await storageProviderMap.cookie.get(page),
+    sessionStorage: await storageProviderMap.sessionStorage.get(page),
+    indexedDB: await storageProviderMap.indexedDB.get(page),
   };
 }
 
-export async function setSessionData(page: Page, sessionData: SessionData) {
-  await Promise.all([
-    setCookies(page, sessionData.cookies),
-    setLocalStorage(page, sessionData.localStorage),
-    setSessionStorage(page, sessionData.sessionStorage),
-    setAllIndexedDB(page, sessionData.indexedDBDatabases),
-  ]);
+export async function setSessionData(
+  page: Page,
+  sessionData: SessionData,
+): Promise<void> {
+  await Promise.all(
+    Object.values(storageProviderMap).map(async (provider) => {
+      const data = sessionData[provider.name];
+      if (data) {
+        await provider.set(page, data);
+      }
+    }),
+  );
 }

@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json.schemastore.org/nodemon.json",
+  "verbose": false,
+  "ignore": ["*.md", ".git", "node_modules"],
+  "watch": ["src", "package.json"],
+  "ext": "js,ts,json",
+  "execMap": {
+    "ts": "tsc"
+  }
+}

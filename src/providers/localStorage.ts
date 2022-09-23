@@ -1,18 +1,28 @@
-import { Page } from "puppeteer";
+import { Page } from 'puppeteer';
+import {
+  StorageProvider,
+  StorageProviderName,
+} from '../classes/storage-provider';
 
-export async function getLocalStorage(page: Page) {
-  // STEALTH: use isolated worlds
-  const localStorage = await page.evaluate(() =>
-    Object.assign({}, window.localStorage)
-  );
-  return JSON.stringify(localStorage);
-}
+export class LocalStorageProvider extends StorageProvider {
+  public get name(): StorageProviderName {
+    return StorageProviderName.LocalStorage;
+  }
 
-export async function setLocalStorage(page: Page, localStorage: string) {
-  // STEALTH: use isolated worlds
-  await page.evaluate((localStorage: string) => {
-    for (const [key, val] of Object.entries(JSON.parse(localStorage))) {
-      window.localStorage.setItem(key, val as string);
-    }
-  }, localStorage);
+  public async get(page: Page): Promise<string> {
+    // STEALTH: use isolated worlds
+    const localStorage = await page.evaluate(() =>
+      Object.assign({}, window.localStorage),
+    );
+    return JSON.stringify(localStorage);
+  }
+
+  public async set(page: Page, data: string): Promise<void> {
+    // STEALTH: use isolated worlds
+    await page.evaluate((localStorage: string) => {
+      for (const [key, val] of Object.entries(JSON.parse(localStorage))) {
+        window.localStorage.setItem(key, val as string);
+      }
+    }, data);
+  }
 }

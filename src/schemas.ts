@@ -1,4 +1,5 @@
-import { z } from "zod";
+/* eslint-disable @rushstack/typedef-var */
+import { z } from 'zod';
 
 /**
  * @see https://chromedevtools.github.io/devtools-protocol/tot/IndexedDB/#method-requestDatabaseNames
@@ -18,9 +19,9 @@ export const IndexedDBDatabaseSchema = z.object({
 });
 export type IndexedDBDatabase = z.infer<typeof IndexedDBDatabaseSchema>;
 
-const CDPSameSite = z.enum(["Strict", "Lax", "None"]);
-const CDPCookiePriority = z.enum(["Low", "Medium", "High"]);
-const CDPSourceScheme = z.enum(["Unset", "NonSecure", "Secure"]);
+const CDPSameSite = z.enum(['Strict', 'Lax', 'None']);
+const CDPCookiePriority = z.enum(['Low', 'Medium', 'High']);
+const CDPSourceScheme = z.enum(['Unset', 'NonSecure', 'Secure']);
 
 /**
  * CDP Network.Cookie schema
@@ -70,6 +71,6 @@ export const CDPCookieParam = z.object({
 export const SessionDataSchema = z.object({
   localStorage: z.string(),
   sessionStorage: z.string(),
-  indexedDBDatabases: z.array(IndexedDBDatabaseSchema),
-  cookies: z.array(CDPCookieSchema),
+  indexedDB: z.string(),
+  cookie: z.string(),
 });

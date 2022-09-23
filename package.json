@@ -2,6 +2,18 @@
   "name": "puppeteer-extra-plugin-session",
   "version": "0.0.1",
   "description": "A puppeteer plugin to dump and inject session data.",
+  "keywords": [
+    "puppeteer",
+    "puppeteer-extra",
+    "puppeteer-extra-plugin",
+    "session",
+    "puppeteer-extra-plugin-stealth",
+    "cookies",
+    "indexeddb",
+    "profile",
+    "sessionStorage",
+    "localStorage"
+  ],
   "repository": "https://github.com/clouedoc/puppeteer-extra-plugin-session",
   "license": "MIT",
   "author": "Camille Louédoc <camille.eyries@gmail.com>",
@@ -11,9 +23,13 @@
     "lib"
   ],
   "scripts": {
-    "test": "yarn jest --watchAll",
     "build": "yarn tsc",
+    "detect-circular-dependencies": "madge --circular --extensions ts ./src",
+    "dev": "nodemon --exec 'yarn build && yarn lint && yarn detect-circular-dependencies && yarn sort'",
+    "lint": "eslint ./src --fix --max-warnings 0",
     "publish": "yarn build && yarn publish",
+    "sort": "npx sort-package-json",
+    "test": "yarn jest --watchAll",
     "todo": "leasot -x --reporter markdown 'src/**/*.ts' --tags STEALTH > TODO.md"
   },
   "dependencies": {
@@ -22,6 +38,7 @@
     "zod": "^3.0.0-alpha.33"
   },
   "devDependencies": {
+    "@rushstack/eslint-config": "^3.0.1",
     "@types/jest": "^26",
     "@types/node": "^14",
     "eslint": "^7",
@@ -35,6 +52,8 @@
     "eslint-plugin-standard": "^5.0.0",
     "jest": "^26.6.3",
     "leasot": "^12.0.0",
+    "madge": "^5.0.1",
+    "nodemon": "^2.0.20",
     "prettier": "^2.2.1",
     "prettier-config-standard": "^4",
     "puppeteer": "^5.5.0",
@@ -43,17 +62,5 @@
     "puppeteer-extra-plugin-stealth": "^2.7.8",
     "ts-jest": "^26.5.4",
     "typescript": "^4.2.3"
-  },
-  "keywords": [
-    "puppeteer",
-    "puppeteer-extra",
-    "puppeteer-extra-plugin",
-    "session",
-    "puppeteer-extra-plugin-stealth",
-    "cookies",
-    "indexeddb",
-    "profile",
-    "sessionStorage",
-    "localStorage"
-  ]
+  }
 }

@@ -9,7 +9,7 @@ This plugin supports:
 - cookies
 - localStorage
 - sessionStorage
-- IndexedDB *(you'll need to specify the `securityOrigin` of the databases to dump)*
+- IndexedDB _(currently, only the securityOrigin of the current page will get dumped)_
 
 ## Installation
 
@@ -26,20 +26,20 @@ First of all, you have to register the plugin with `puppeteer-extra`.
 JavaScript:
 
 ```js
-puppeteer.use(require('puppeteer-extra-plugin-session').default())
+puppeteer.use(require('puppeteer-extra-plugin-session').default());
 ```
 
 TypeScript:
 
 ```ts
 import SessionPlugin from 'puppeteer-extra-plugin-session';
-puppeteer.use(SessionPlugin())
+puppeteer.use(SessionPlugin());
 ```
 
 Then, you'll have access to session data helpers:
 
 ```ts
-const securityOrigin = "https://github.com"; // security origin of the target IndexedDB
+const securityOrigin = 'https://github.com'; // security origin of the target IndexedDB
 const sessionData = await page.session.dump(); // or page.session.dumpString()
 
 // [...]
