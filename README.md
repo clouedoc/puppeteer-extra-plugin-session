@@ -21,6 +21,8 @@ npm install puppeteer-extra-plugin-session
 
 ## Usage
 
+### Basic usage
+
 First of all, you have to register the plugin with `puppeteer-extra`.
 
 JavaScript:
@@ -39,12 +41,24 @@ puppeteer.use(SessionPlugin());
 Then, you'll have access to session data helpers:
 
 ```ts
-const securityOrigin = 'https://github.com'; // security origin of the target IndexedDB
 const sessionData = await page.session.dump(); // or page.session.dumpString()
 
 // [...]
 
 await page.session.restore(sessionData); // or page.session.restoreString(sessionData)
+```
+
+### Selecting storage backends
+
+You may wish to exclude certain storage backends from being dumped or restored.
+This can be done by passing an options object to the `dump` and `restore` methods:
+
+```ts
+const sessionData = await page.session.dump({
+  storageProviders: ['cookie', 'localStorage'], // only use the 'cookie' and 'localStorage storage providers
+});
+
+// Here is the list of storage providers: cookie, localStorage, sessionStorage, indexedDB
 ```
 
 ## Testing
