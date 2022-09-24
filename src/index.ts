@@ -3,6 +3,7 @@
  * TODO: make sure that everything is exported
  */
 export * from './classes/session-manager';
+export * from './classes/storage-provider';
 export * from './constants/constants';
 export * from './exceptions';
 export * from './plugin/injector';
