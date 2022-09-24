@@ -10,6 +10,9 @@ export interface ISessionPage extends VanillaPage {
  * Makes self available on the `session` property.
  */
 export function inject(page: VanillaPage): ISessionPage {
+  if (page.session) {
+    return page as ISessionPage;
+  }
   return Object.defineProperty(page, 'session', {
     value: new SessionManager(page),
     writable: false,
