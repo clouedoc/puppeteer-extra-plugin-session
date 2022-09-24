@@ -50,6 +50,12 @@ export class IndexedDBStorageProvider extends StorageProvider {
 
 function generateSetContentScript(data: string): string {
   return `(async() => {
+    // note(clouedoc): required for some websites
+    // see https://stackoverflow.com/a/48690342/4564097
+    define = undefined;
+    exports = undefined;
+    if (window.module) module.exports = undefined;
+
     ${dexieCore}
     ${dexieExportImport}
     const importBlob = new Blob([\`${data}\`], { type: "text/json" });
@@ -95,6 +101,12 @@ export async function getDatabaseNames(
 function generateGetContentScript(dbName: string): string {
   return `
   (async() => {
+    // note(clouedoc): required for some websites
+    // see https://stackoverflow.com/a/48690342/4564097
+    define = undefined;
+    exports = undefined;
+    if (window.module) module.exports = undefined;
+
     ${dexieCore}
     ${dexieExportImport}
     const db = await new Dexie("${dbName}").open();

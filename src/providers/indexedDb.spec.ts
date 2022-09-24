@@ -4,6 +4,8 @@ import StealthPlugin from 'puppeteer-extra-plugin-stealth';
 import { TestBrowserExecutablePath } from '../constants/constants';
 import { SessionPlugin } from '../plugin/plugin';
 
+const TESTING_URL: string = 'https://twitter.com';
+
 jest.setTimeout(15000);
 
 let browser: Browser;
@@ -19,7 +21,7 @@ beforeAll(async () => {
 
 beforeEach(async () => {
   page = await browser.newPage();
-  await page.goto('https://twitter.com/', { waitUntil: 'networkidle2' });
+  await page.goto(TESTING_URL, { waitUntil: 'networkidle2' });
 });
 
 afterAll(async () => {
@@ -51,7 +53,7 @@ it('can set indexDB', async () => {
   const client = await page.target().createCDPSession();
   await client.send('IndexedDB.deleteDatabase', {
     databaseName: 'localforage',
-    securityOrigin: 'https://twitter.com',
+    securityOrigin: TESTING_URL,
   });
   await client.detach();
 
