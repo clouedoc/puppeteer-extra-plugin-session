@@ -1,5 +1,7 @@
 # puppeteer-extra-plugin-session
 
+> A puppeteer-extra plugin to export and import session data (cookies, localStorage, sessionStorage, indexedDb)
+
 ## Introduction
 
 Dump and restore session data from your puppeteer pages.

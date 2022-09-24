@@ -1,6 +1,6 @@
 {
   "name": "puppeteer-extra-plugin-session",
-  "version": "0.0.1",
+  "version": "1.0.1",
   "description": "A puppeteer plugin to dump and inject session data.",
   "keywords": [
     "puppeteer",
@@ -26,10 +26,10 @@
     "build": "yarn tsc",
     "detect-circular-dependencies": "madge --circular --extensions ts ./src",
     "dev": "nodemon --exec 'yarn build && yarn lint && yarn detect-circular-dependencies && yarn sort'",
+    "dev:publish": "rm -rf lib && yarn build && yarn publish",
     "lint": "eslint ./src --fix --max-warnings 0",
     "ncu": "npx npm-check-updates",
     "prettier": "prettier --config .prettierrc --write --loglevel error .",
-    "publish": "yarn build && yarn publish",
     "sort": "npx sort-package-json",
     "test": "yarn jest --watchAll",
     "todo": "leasot -x --reporter markdown 'src/**/*.ts' --tags STEALTH > TODO.md"
