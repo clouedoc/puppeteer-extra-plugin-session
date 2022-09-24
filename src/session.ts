@@ -9,15 +9,13 @@ import { LocalStorageProvider } from './providers/localStorage';
 import { SessionStorageProvider } from './providers/sessionStorage';
 import { SessionData } from './types/session-data';
 
-export const storageProviderMap: Record<
-  StorageProviderName,
-  StorageProvider
-> = {
-  [StorageProviderName.Cookie]: new CookieStorageProvider(),
-  [StorageProviderName.LocalStorage]: new LocalStorageProvider(),
-  [StorageProviderName.SessionStorage]: new SessionStorageProvider(),
-  [StorageProviderName.IndexedDB]: new IndexedDBStorageProvider(),
-};
+export const storageProviderMap: Record<StorageProviderName, StorageProvider> =
+  {
+    [StorageProviderName.Cookie]: new CookieStorageProvider(),
+    [StorageProviderName.LocalStorage]: new LocalStorageProvider(),
+    [StorageProviderName.SessionStorage]: new SessionStorageProvider(),
+    [StorageProviderName.IndexedDB]: new IndexedDBStorageProvider(),
+  };
 
 export async function getSessionData(page: Page): Promise<SessionData> {
   return {

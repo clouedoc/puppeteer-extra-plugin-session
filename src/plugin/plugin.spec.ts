@@ -9,7 +9,6 @@ jest.setTimeout(15000);
 
 it('injects the session manager when a page is created', async () => {
   const browser = await puppeteer.launch({
-    headless: true,
     executablePath: TestBrowserExecutablePath,
     args: ['--no-sandbox'],
   });

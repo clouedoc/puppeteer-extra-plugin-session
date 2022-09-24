@@ -1,12 +1,14 @@
-import { Browser, launch, Page } from 'puppeteer';
+import puppeteer, { Browser, Page } from 'puppeteer';
 import { SessionManager } from '../classes/session-manager';
 import { TestBrowserExecutablePath } from '../constants/constants';
 import { inject } from './injector';
 
+jest.setTimeout(10000);
+
 let browser: Browser;
 let page: Page;
 beforeAll(async () => {
-  browser = await launch({
+  browser = await puppeteer.launch({
     headless: true,
     executablePath: TestBrowserExecutablePath,
     args: ['--no-sandbox'],
@@ -15,7 +17,7 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  await browser.close();
+  await browser?.close();
 });
 
 it('can inject the SessionManager', async () => {
