@@ -55,10 +55,22 @@ This can be done by passing an options object to the `dump` and `restore` method
 
 ```ts
 const sessionData = await page.session.dump({
-  storageProviders: ['cookie', 'localStorage'], // only use the 'cookie' and 'localStorage storage providers
+  storageProviders: [
+    StorageProviderName.Cookie,
+    StorageProviderName.LocalStorage,
+  ], // only dump cookies and LocalStorage
 });
 
-// Here is the list of storage providers: cookie, localStorage, sessionStorage, indexedDB
+// Here is the list of StorageProviderName:
+//  * StorageProviderName.Cookie
+//  * StorageProviderName.LocalStorage
+//  * StorageProviderName.SessionStorage
+//  * StorageProviderName.IndexedDB
+
+// You can also filter what gets restored:
+await page.session.restore(sessionData, {
+  storageProviders: [StorageProviderName.Cookie], // only restore cookies (the previous dump also contained LocalStorage)
+});
 ```
 
 ## Testing
