@@ -33,17 +33,14 @@ afterEach(async () => {
 
 it('can get cookies', async () => {
   await page.evaluate(() => {
-    function setCookie(
-      cookieName: string,
-      value: string,
-      exDays?: number,
-    ): void {
-      const exDate = new Date();
-      exDate.setDate(exDate.getDate() + (exDays || 0));
-      const cookieValue =
-        escape(value) +
-        (exDays === null ? '' : '; expires=' + exDate.toUTCString());
-      document.cookie = cookieName + '=' + cookieValue;
+    function setCookie(name: string, value: string, days?: number): void {
+      let expires: string;
+      if (days) {
+        const date = new Date();
+        date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+        expires = '; expires=' + date.toString();
+      } else expires = '';
+      document.cookie = name + '=' + value + expires + ';';
     }
 
     setCookie('foo', 'bar');
@@ -69,17 +66,14 @@ it('can get cookies', async () => {
 it('can edit and overwrite cookies', async () => {
   // set dummy cookie (foo:bar)
   await page.evaluate(() => {
-    function setCookie(
-      cookieName: string,
-      value: string,
-      exDays?: number,
-    ): void {
-      const exDate = new Date();
-      exDate.setDate(exDate.getDate() + (exDays || 0));
-      const c_value =
-        escape(value) +
-        (exDays === null ? '' : '; expires=' + exDate.toUTCString());
-      document.cookie = cookieName + '=' + c_value;
+    function setCookie(name: string, value: string, days?: number): void {
+      let expires: string;
+      if (days) {
+        const date = new Date();
+        date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+        expires = '; expires=' + date.toString();
+      } else expires = '';
+      document.cookie = name + '=' + value + expires + ';';
     }
 
     setCookie('foo', 'bar');
