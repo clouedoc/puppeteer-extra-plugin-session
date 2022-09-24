@@ -54,6 +54,8 @@ You may wish to exclude certain storage backends from being dumped or restored.
 This can be done by passing an options object to the `dump` and `restore` methods:
 
 ```ts
+import { StorageProviderName } from 'puppeteer-extra-plugin-session';
+
 const sessionData = await page.session.dump({
   storageProviders: [
     StorageProviderName.Cookie,
