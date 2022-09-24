@@ -30,7 +30,8 @@ it('can get localdb', async () => {
   const session = await page.session.dump();
 
   // the db exist and was obtained
-  expect(session.indexedDB).toHaveLength(1);
+  // note(clouedoc): long string, just making sure it's the exact same length than the one I get under normal conditions
+  expect(session.indexedDB?.length).toBe(335);
   expect(
     JSON.parse(session.indexedDB).some(
       (db: { name: string }) => db.name === 'localforage',
