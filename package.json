@@ -27,12 +27,12 @@
     "detect-circular-dependencies": "madge --circular --extensions ts ./src",
     "dev": "nodemon --exec 'yarn build && yarn lint && yarn detect-circular-dependencies && yarn sort'",
     "lint": "eslint ./src --fix --max-warnings 0",
+    "ncu": "npx npm-check-updates",
+    "prettier": "prettier --config .prettierrc --write --loglevel error .",
     "publish": "yarn build && yarn publish",
     "sort": "npx sort-package-json",
     "test": "yarn jest --watchAll",
-    "todo": "leasot -x --reporter markdown 'src/**/*.ts' --tags STEALTH > TODO.md",
-    "ncu": "npx npm-check-updates",
-    "prettier": "prettier --config .prettierrc --write --loglevel error ."
+    "todo": "leasot -x --reporter markdown 'src/**/*.ts' --tags STEALTH > TODO.md"
   },
   "dependencies": {
     "puppeteer-extra-plugin": "^3.2.2",

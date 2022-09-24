@@ -69,8 +69,8 @@ export const CDPCookieParam = z.object({
 });
 
 export const SessionDataSchema = z.object({
-  localStorage: z.string(),
-  sessionStorage: z.string(),
-  indexedDB: z.string(),
-  cookie: z.string(),
+  localStorage: z.string().optional(),
+  sessionStorage: z.string().optional(),
+  indexedDB: z.string().optional(),
+  cookie: z.string().optional(),
 });

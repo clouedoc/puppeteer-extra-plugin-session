@@ -50,14 +50,14 @@ it('can get cookies', async () => {
 
   // the cookie exists and was obtained
   expect(
-    JSON.parse(session.cookie).some(
+    JSON.parse(session.cookie!).some(
       (cookie: CDPCookie) => cookie.name === 'foo',
     ),
   ).toBe(true);
 
   // the cookie contains the right value
   expect(
-    JSON.parse(session.cookie).find(
+    JSON.parse(session.cookie!).find(
       (cookie: CDPCookie) => cookie.name === 'foo',
     )?.value,
   ).toBe('bar');
@@ -83,7 +83,7 @@ it('can edit and overwrite cookies', async () => {
 
   // edit cookies
   initialSession.cookie = JSON.stringify(
-    JSON.parse(initialSession.cookie).map((cookie: CDPCookie) => {
+    JSON.parse(initialSession.cookie!).map((cookie: CDPCookie) => {
       // note: beware, here, it's baz, while before, it was ba*r*.
       cookie.value = 'baz';
       return cookie;
@@ -96,14 +96,14 @@ it('can edit and overwrite cookies', async () => {
 
   // the cookie exists again
   expect(
-    JSON.parse(restoredSession.cookie).some(
+    JSON.parse(restoredSession.cookie!).some(
       (cookie: CDPCookie) => cookie.name === 'foo',
     ),
   ).toBe(true);
 
   // the cookie contains the right value
   expect(
-    JSON.parse(restoredSession.cookie).find(
+    JSON.parse(restoredSession.cookie!).find(
       (cookie: CDPCookie) => cookie.name === 'foo',
     )?.value,
   ).toBe('baz');

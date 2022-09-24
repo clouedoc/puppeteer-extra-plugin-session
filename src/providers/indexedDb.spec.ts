@@ -33,7 +33,7 @@ it('can get localdb', async () => {
   // note(clouedoc): long string, just making sure it's the exact same length than the one I get under normal conditions
   expect(session.indexedDB?.length).toBe(335);
   expect(
-    JSON.parse(session.indexedDB).some(
+    JSON.parse(session.indexedDB!).some(
       (db: { name: string }) => db.name === 'localforage',
     ),
   ).toBe(true);
@@ -42,7 +42,7 @@ it('can get localdb', async () => {
 it('can set indexDB', async () => {
   const session = await page.session.dump();
   expect(
-    JSON.parse(session.indexedDB).some(
+    JSON.parse(session.indexedDB!).some(
       (db: { name: string }) => db.name === 'localforage',
     ),
   ).toBe(true);
@@ -58,7 +58,7 @@ it('can set indexDB', async () => {
   // Dump the session again to make sure there is no localforage
   const emptySession = await page.session.dump();
   expect(
-    JSON.parse(emptySession.indexedDB).some(
+    JSON.parse(emptySession.indexedDB!).some(
       (db: { name: string }) => db.name === 'localforage',
     ),
   ).toBe(false);
@@ -69,7 +69,7 @@ it('can set indexDB', async () => {
   // Check to make sure the db was restored
   const finalSession = await page.session.dump();
   expect(
-    JSON.parse(finalSession.indexedDB).some(
+    JSON.parse(finalSession.indexedDB!).some(
       (db: { name: string }) => db.name === 'localforage',
     ),
   ).toBe(true);

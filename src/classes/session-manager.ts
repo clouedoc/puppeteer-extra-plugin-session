@@ -4,6 +4,19 @@ import { CorruptedSessionDataError } from '../exceptions';
 import { SessionDataSchema } from '../schemas';
 import { getSessionData, setSessionData } from '../session';
 import { SessionData } from '../types/session-data';
+import { StorageProviderName } from './storage-provider';
+
+export interface ISessionManagerOptions {
+  /**
+   * List of storage providers to enable.
+   * If none is provided, all the storage providers will be enabled.
+   */
+  storageProviders?: StorageProviderName[];
+}
+
+export const defaultSessionManagerOptions: ISessionManagerOptions = {
+  storageProviders: Object.values(StorageProviderName),
+};
 
 export class SessionManager {
   protected readonly page: Page;
@@ -12,15 +25,16 @@ export class SessionManager {
     this.page = page;
   }
 
-  public async dump(): Promise<SessionData> {
-    return getSessionData(this.page);
+  public async dump(
+    options: ISessionManagerOptions = defaultSessionManagerOptions,
+  ): Promise<SessionData> {
+    return getSessionData(this.page, options.storageProviders);
   }
 
-  public async dumpString(): Promise<string> {
-    return JSON.stringify(await getSessionData(this.page));
-  }
-
-  public async restore(sessionData: SessionData): Promise<void> {
+  public async restore(
+    sessionData: SessionData,
+    options: ISessionManagerOptions = defaultSessionManagerOptions,
+  ): Promise<void> {
     let data;
     try {
       data = SessionDataSchema.parse(sessionData);
@@ -32,10 +46,25 @@ export class SessionManager {
       throw err;
     }
 
-    await setSessionData(this.page, data);
+    await setSessionData(this.page, data, options.storageProviders);
   }
 
-  public async restoreString(sessionData: string): Promise<void> {
-    await setSessionData(this.page, JSON.parse(sessionData));
+  /**
+   * Helper function to serialize the output of dump into JSON format.
+   */
+  public async dumpString(
+    options: ISessionManagerOptions = defaultSessionManagerOptions,
+  ): Promise<string> {
+    return JSON.stringify(await this.dump(options));
+  }
+
+  /**
+   * Helper function to parse a JSON string into a SessionData object and feed it to `restore`
+   */
+  public async restoreString(
+    sessionData: string,
+    options: ISessionManagerOptions = defaultSessionManagerOptions,
+  ): Promise<void> {
+    await this.restore(JSON.parse(sessionData), options);
   }
 }
